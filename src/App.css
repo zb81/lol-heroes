@@ -1,0 +1,29 @@
+body {
+  padding: 50px;
+  background: #161a20;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+.search-input {
+  display: block;
+  margin: 0 auto 20px;
+  border: none;
+  background: none;
+  outline: none;
+  color: #fff;
+  font-size: 18px;
+  border-bottom: 1px solid greenyellow;
+  padding: 6px 10px;
+}

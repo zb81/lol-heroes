@@ -1,0 +1,31 @@
+.wrapper {
+  background: #000;
+}
+
+.pic {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.name {
+  color: #fff;
+  font-size: 12px;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.btn img {
+  width: 14px;
+  height: 14px;
+}
