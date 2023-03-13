@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "homepage": "https://zb980921.github.io/lol-heroes",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
