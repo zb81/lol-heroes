@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import HeroItem from "./components/Hero";
 import { Hero } from "./types";
 import "./App.css";
@@ -7,7 +7,7 @@ import { debounce } from "lodash-es";
 function App() {
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const [displayedHeroes, setDisplayedHeroes] = useState<Hero[]>([]);
-  const [keyword, setKeyword] = useState("");
+  const deferredHeroes = useDeferredValue(displayedHeroes);
 
   async function fetchData() {
     const res = await fetch(
@@ -15,22 +15,17 @@ function App() {
     );
     const resJson = await res.json();
     setHeroes(resJson.hero);
+    setDisplayedHeroes(resJson.hero)
   }
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (keyword) {
-      setDisplayedHeroes(
-        heroes.filter((item) => item.keywords.includes(keyword))
-      );
-    }
-  }, [keyword]);
-
   function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    setKeyword(e.target.value.trim());
+    setDisplayedHeroes(
+      heroes.filter((item) => item.keywords.includes(e.target.value.trim()))
+    );
   }
 
   return (
@@ -42,7 +37,7 @@ function App() {
         onChange={debounce(onSearch, 250)}
       />
       <div className="list">
-        {(!!keyword ? displayedHeroes : heroes).map((item) => (
+        {deferredHeroes.map((item) => (
           <HeroItem key={item.instance_id} {...item} />
         ))}
       </div>
