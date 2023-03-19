@@ -2,15 +2,8 @@ import { Hero } from "../../types";
 import style from "./Hero.module.css";
 import copySvg from "../../assets/copy.svg";
 
-function onCopy(text: string) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text);
-    alert("Alias copied!");
-  } else {
-    alert("The browser is not supported");
-  }
-}
-const HeroItem = (props: Hero) => {
+
+const HeroItem = (props: Hero & { onCopy: (text: string) => void }) => {
   return (
     <div className={style.wrapper}>
       <a
@@ -28,7 +21,7 @@ const HeroItem = (props: Hero) => {
         {props.alias}
         <button
           className={style.btn}
-          onClick={() => onCopy(props.alias)}
+          onClick={() => props.onCopy(props.alias)}
           title="Copy"
         >
           <img src={copySvg} alt="" />

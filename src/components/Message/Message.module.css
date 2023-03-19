@@ -1,0 +1,23 @@
+.message {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  width: 100px;
+  background: orange;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  transition: all .3s;
+}
+
+.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.hide {
+  transform: translateX(100%);
+  opacity: 0;
+}

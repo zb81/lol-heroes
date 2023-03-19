@@ -3,11 +3,16 @@ import HeroItem from "./components/Hero";
 import { Hero } from "./types";
 import "./App.css";
 import { debounce } from "lodash-es";
+import { createPortal } from "react-dom";
+import Message from "./components/Message";
 
 function App() {
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const [displayedHeroes, setDisplayedHeroes] = useState<Hero[]>([]);
+
   const deferredHeroes = useDeferredValue(displayedHeroes);
+
+  const [showMessage, setShowMessage] = useState(false);
 
   async function fetchData() {
     const res = await fetch(
@@ -15,7 +20,7 @@ function App() {
     );
     const resJson = await res.json();
     setHeroes(resJson.hero);
-    setDisplayedHeroes(resJson.hero)
+    setDisplayedHeroes(resJson.hero);
   }
 
   useEffect(() => {
@@ -28,6 +33,16 @@ function App() {
     );
   }
 
+  function onCopy(text: string) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 1500);
+    } else {
+      alert("The browser is not supported");
+    }
+  }
+
   return (
     <>
       <input
@@ -36,11 +51,14 @@ function App() {
         placeholder="Search..."
         onChange={debounce(onSearch, 250)}
       />
+
       <div className="list">
         {deferredHeroes.map((item) => (
-          <HeroItem key={item.instance_id} {...item} />
+          <HeroItem key={item.instance_id} {...item} onCopy={onCopy} />
         ))}
       </div>
+
+      {createPortal(<Message show={showMessage} />, document.body)}
     </>
   );
 }
