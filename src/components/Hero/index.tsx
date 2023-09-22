@@ -12,7 +12,7 @@ const HeroItem = (props: Hero & { onCopy: (text: string) => void }) => {
       >
         <img
           className={style.pic}
-          src={`https://game.gtimg.cn/images/lol/act/img/skinloading/${props.heroId}000.jpg`}
+          src={`https://game.gtimg.cn/images/lol/act/img/skinloading/${props.instance_id}.jpg`}
           alt={props.name}
         />
       </a>
