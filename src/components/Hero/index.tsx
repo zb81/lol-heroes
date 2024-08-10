@@ -7,7 +7,7 @@ const HeroItem = (props: Hero & { onCopy: (text: string) => void }) => {
   return (
     <div className={style.wrapper}>
       <a
-        href={`https://101.qq.com/#/hero-detail?heroid=${props.heroId}`}
+        href={`https://101.qq.com/#/hero-detail?heroid=${props.heroId}&datatype=fight&tab=overview`}
         target="_blank"
       >
         <img
