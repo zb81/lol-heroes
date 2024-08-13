@@ -1,67 +1,25 @@
-import { useDeferredValue, useEffect, useState } from 'react'
-import { debounce } from 'lodash-es'
-import { createPortal } from 'react-dom'
-import HeroItem from './components/Hero'
-import Message from './components/Message'
-import type { Hero } from './types'
-import './App.css'
+import { ConfigProvider, Input, theme } from 'antd'
+import { useSetAtom } from 'jotai'
+import { Suspense } from 'react'
+import { keywordAtom } from './store'
+import Heroes from './components/Heroes'
 
 function App() {
-  const [heroes, setHeroes] = useState<Hero[]>([])
-  const [displayedHeroes, setDisplayedHeroes] = useState<Hero[]>([])
-
-  const deferredHeroes = useDeferredValue(displayedHeroes)
-
-  const [showMessage, setShowMessage] = useState(false)
-
-  async function fetchData() {
-    const res = await fetch(
-      'https://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js?ts=2797816',
-    )
-    const resJson = await res.json()
-    setHeroes(resJson.hero)
-    setDisplayedHeroes(resJson.hero)
-  }
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    setDisplayedHeroes(
-      heroes.filter(item => item.keywords.includes(e.target.value.trim())),
-    )
-  }
-
-  function onCopy(text: string) {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text)
-      setShowMessage(true)
-      setTimeout(() => setShowMessage(false), 1500)
-    }
-    else {
-      // eslint-disable-next-line no-alert
-      alert('The browser is not supported')
-    }
-  }
-
+  const setKeyword = useSetAtom(keywordAtom)
   return (
-    <>
-      <input
-        className="search-input"
-        type="text"
-        placeholder="Search..."
-        onChange={debounce(onSearch, 250)}
-      />
-
-      <div className="list">
-        {deferredHeroes.map(item => (
-          <HeroItem key={item.instance_id} {...item} onCopy={onCopy} />
-        ))}
+    <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+      <div className="sticky top-0 py-5 bg-dark z-10">
+        <Input.Search
+          className="w-1/2 mx-auto block"
+          placeholder="输入关键字..."
+          onSearch={setKeyword}
+        />
       </div>
 
-      {createPortal(<Message show={showMessage} />, document.body)}
-    </>
+      <Suspense fallback={<div>数据加载中...</div>}>
+        <Heroes />
+      </Suspense>
+    </ConfigProvider>
   )
 }
 
