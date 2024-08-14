@@ -15,6 +15,7 @@ export default function Search() {
       <Input.Search
         size="large"
         placeholder="输入关键字..."
+        className="w-[180px]"
         allowClear
         onSearch={(v) => {
           setCategory('')
