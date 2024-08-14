@@ -13,7 +13,7 @@ function HeroItem({ hero }: HeroItemProps) {
         src={`https://game.gtimg.cn/images/lol/act/img/skinloading/${hero.instance_id}.jpg`}
         alt={hero.name}
       />
-      <div className="text-center mt-1">{hero.name}</div>
+      <div className="text-center mt-[6px]">{hero.name}</div>
       <div className="flex justify-evenly py-[6px]">
         <a
           href={`https://www.op.gg/modes/aram/${hero.alias.toLowerCase()}/build?region=kr&tier=all`}
