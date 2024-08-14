@@ -1,50 +1,33 @@
 import { Button } from 'antd'
-import { CopyOutlined } from '@ant-design/icons'
-import type { MessageInstance } from 'antd/es/message/interface'
 import type { Hero } from '../types'
 
-function Center({ children }: React.PropsWithChildren) {
-  return <div className="text-xs my-1 flex items-center justify-center">{children}</div>
-}
-
 interface HeroItemProps {
-  msgApi: MessageInstance
   hero: Hero
 }
 
-function HeroItem({ hero, msgApi }: HeroItemProps) {
-  async function onCopy(text: string) {
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(text)
-      msgApi.open({ type: 'success', content: '复制成功' })
-    }
-    else {
-      msgApi.open({ type: 'error', content: '浏览器不支持复制' })
-    }
-  }
-
+function HeroItem({ hero }: HeroItemProps) {
   return (
-    <div className="bg-black w-[100px]">
-      <a
-        href={`https://101.qq.com/#/hero-detail?heroid=${hero.heroId}&datatype=fight&tab=overview`}
-        target="_blank"
-      >
-        <img
-          className="w-full h-[100px] object-cover object-top"
-          src={`https://game.gtimg.cn/images/lol/act/img/skinloading/${hero.instance_id}.jpg`}
-          alt={hero.name}
-        />
-      </a>
-      <Center>{hero.name}</Center>
-      <Center>
-        {hero.alias}
-        <Button
-          size="small"
-          icon={<CopyOutlined />}
-          type="text"
-          onClick={() => onCopy(hero.alias)}
-        />
-      </Center>
+    <div className="bg-black w-[120px]">
+      <img
+        className="w-full h-[130px] object-cover object-top"
+        src={`https://game.gtimg.cn/images/lol/act/img/skinloading/${hero.instance_id}.jpg`}
+        alt={hero.name}
+      />
+      <div className="text-center mt-1">{hero.name}</div>
+      <div className="flex justify-evenly py-[6px]">
+        <a
+          href={`https://www.op.gg/modes/aram/${hero.alias.toLowerCase()}/build?region=kr&tier=emerald_plus`}
+          target="_blank"
+        >
+          <Button size="small">OP.GG</Button>
+        </a>
+        <a
+          href={`https://101.qq.com/#/hero-detail?heroid=${hero.heroId}&datatype=fight&tab=overview`}
+          target="_blank"
+        >
+          <Button size="small">101</Button>
+        </a>
+      </div>
     </div>
   )
 }

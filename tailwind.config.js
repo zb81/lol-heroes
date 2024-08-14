@@ -9,6 +9,7 @@ export default {
       white: '#fff',
       black: '#000',
       dark: '#161a20',
+      primary: '#2ed573',
     },
     extend: {},
   },

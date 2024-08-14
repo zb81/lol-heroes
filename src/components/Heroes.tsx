@@ -1,22 +1,25 @@
 import { useAtomValue } from 'jotai'
-import { message } from 'antd'
-import { heroesAtom, keywordAtom } from '../store'
+import { categoryAtom, heroesAtom, keywordAtom } from '../store'
 import HeroItem from './HeroItem'
 
 export default function Heroes() {
-  const [msgApi, contextHolder] = message.useMessage()
   const heroes = useAtomValue(heroesAtom)
   const keyword = useAtomValue(keywordAtom)
+  const category = useAtomValue(categoryAtom)
+
+  // category 优先级高于 keyword
+  const displayedHeroes = category.length === 0
+    ? keyword.length === 0
+      ? heroes
+      : heroes.filter(hero => hero.keywords.toLowerCase().includes(keyword.toLowerCase()))
+    : heroes.filter(hero => hero.categories.some(c => c.startsWith(category)))
 
   return (
-    <>
-      {contextHolder}
-      {keyword}
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 flex-wrap justify-items-center gap-5">
-        {heroes.map(item => (
-          <HeroItem key={item.instance_id} hero={item} msgApi={msgApi} />
-        ))}
-      </div>
-    </>
+    <div className="flex flex-wrap justify-between gap-5 pb-4">
+      {displayedHeroes.map(item => (
+        <HeroItem key={item.instance_id} hero={item} />
+      ))}
+      {Array.from({ length: 6 }).map((_, i) => <div className="w-[120px] h-0" key={i}></div>)}
+    </div>
   )
 }
