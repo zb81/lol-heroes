@@ -6,6 +6,12 @@ import { categoryAtom, keywordAtom } from '../store'
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+  })
+}
+
 export default function Search() {
   const setKeyword = useSetAtom(keywordAtom)
   const [category, setCategory] = useAtom(categoryAtom)
@@ -20,6 +26,7 @@ export default function Search() {
         onSearch={(v) => {
           setCategory('')
           setKeyword(v)
+          scrollToTop()
         }}
       />
 
@@ -40,6 +47,7 @@ export default function Search() {
                 onClick={(e) => {
                   e.preventDefault()
                   setCategory(isActive ? '' : letter)
+                  scrollToTop()
                 }}
               >
                 {letter.toUpperCase()}
