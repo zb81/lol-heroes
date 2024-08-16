@@ -22,7 +22,7 @@ function HeroItem({ hero }: HeroItemProps) {
           <Button size="small">OP.GG</Button>
         </a>
         <a
-          href={`https://101.qq.com/#/hero-detail?heroid=${hero.heroId}&datatype=fight&tab=overview`}
+          href={`https://101.qq.com/#/hero-rank-fight?heroid=${hero.heroId}`}
           target="_blank"
         >
           <Button size="small">101</Button>
